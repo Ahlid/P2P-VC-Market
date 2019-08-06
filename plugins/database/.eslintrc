@@ -1,0 +1,12 @@
+{
+    "root": true,
+    "extends": "hapi",
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "plugins": ["hapi"],
+    "rules": {
+        "linebreak-style": [2, "windows"],
+        "strict": [0, "global"]
+    }
+}

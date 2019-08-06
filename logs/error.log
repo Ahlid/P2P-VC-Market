@@ -1,0 +1,24 @@
+{"event":"log","timestamp":1565121149830,"tags":["error"],"pid":4644,"error":{"name":"error","length":91,"severity":"FATAL","code":"3D000","file":"postinit.c","line":"848","routine":"InitPostgres"}}
+{"event":"error","timestamp":1565121149506,"id":"1565121149506:DESKTOP-0QIJ4AI:4644:jz08dmgi:10007","url":"http://localhost:8081/user/register","method":"post","pid":4644,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565121193960,"tags":["error"],"pid":9428,"error":{"name":"error","length":104,"severity":"ERROR","code":"42P01","position":"13","file":"parse_relation.c","line":"1180","routine":"parserOpenTable"}}
+{"event":"error","timestamp":1565121193140,"id":"1565121193140:DESKTOP-0QIJ4AI:9428:jz08qrqy:10000","url":"http://localhost:8081/user/register","method":"post","pid":9428,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565121338656,"tags":["error"],"pid":11056,"error":{"name":"ValidationError","type":"ModelValidation","data":{"email":[{"keyword":"unique","message":"email already in use."}]},"statusCode":400}}
+{"event":"error","timestamp":1565121338337,"id":"1565121338337:DESKTOP-0QIJ4AI:11056:jz08tx05:10000","url":"http://localhost:8081/user/register","method":"post","pid":11056,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565121356490,"tags":["error"],"pid":11056,"error":{"name":"error","length":104,"severity":"ERROR","code":"42P01","position":"13","file":"parse_relation.c","line":"1180","routine":"parserOpenTable"}}
+{"event":"error","timestamp":1565121355961,"id":"1565121355961:DESKTOP-0QIJ4AI:11056:jz08tx05:10001","url":"http://localhost:8081/user/register","method":"post","pid":11056,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565121607565,"tags":["error"],"pid":3900,"error":{}}
+{"event":"error","timestamp":1565121607557,"id":"1565121607557:DESKTOP-0QIJ4AI:3900:jz08zem8:10001","url":"http://localhost:8081/user/login","method":"post","pid":3900,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565121636411,"tags":["error"],"pid":15012,"error":{}}
+{"event":"error","timestamp":1565121636286,"id":"1565121636286:DESKTOP-0QIJ4AI:15012:jz0908a0:10000","url":"http://localhost:8081/user/login","method":"post","pid":15012,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565122746005,"tags":["error"],"pid":7888,"error":{}}
+{"event":"error","timestamp":1565122740998,"id":"1565122740998:DESKTOP-0QIJ4AI:7888:jz09n2ka:10001","url":"http://localhost:8081/user/logout","method":"post","pid":7888,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565122766249,"tags":["error"],"pid":14080,"error":{}}
+{"event":"error","timestamp":1565122766081,"id":"1565122766081:DESKTOP-0QIJ4AI:14080:jz09okma:10000","url":"http://localhost:8081/user/logout","method":"post","pid":14080,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565122794040,"tags":["error"],"pid":15968,"error":{}}
+{"event":"error","timestamp":1565122793695,"id":"1565122793695:DESKTOP-0QIJ4AI:15968:jz09p4ck:10000","url":"http://localhost:8081/user/logout","method":"post","pid":15968,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565123116135,"tags":["error"],"pid":15968,"error":{}}
+{"event":"error","timestamp":1565122846749,"id":"1565122846749:DESKTOP-0QIJ4AI:15968:jz09p4ck:10001","url":"http://localhost:8081/user/logout","method":"post","pid":15968,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565123207543,"tags":["error"],"pid":15968,"error":{}}
+{"event":"error","timestamp":1565123116146,"id":"1565123116146:DESKTOP-0QIJ4AI:15968:jz09p4ck:10002","url":"http://localhost:8081/user/logout","method":"post","pid":15968,"error":"An internal server error occurred","config":{}}
+{"event":"log","timestamp":1565123218545,"tags":["error"],"pid":15968,"error":{}}
+{"event":"error","timestamp":1565123214746,"id":"1565123214746:DESKTOP-0QIJ4AI:15968:jz09p4ck:10004","url":"http://localhost:8081/user/logout","method":"post","pid":15968,"error":"An internal server error occurred","config":{}}

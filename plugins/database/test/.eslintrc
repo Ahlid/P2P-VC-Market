@@ -1,0 +1,20 @@
+{
+    "root": true,
+    "extends": "eslint:recommended",
+    "env": {
+        "es6": true,
+        "node": true,
+        "mocha": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
+    "plugins": ["mocha"],
+    "rules": {
+        "indent": [2, 4, {"SwitchCase": 1}],
+        "mocha/handle-done-callback": 2,
+        "mocha/no-exclusive-tests": 2,
+        "mocha/no-global-tests": 2,
+        "mocha/no-synchronous-tests": 2
+    }
+}

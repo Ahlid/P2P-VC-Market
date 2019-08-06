@@ -1,0 +1,49 @@
+{
+  "name": "jwt",
+  "version": "3.0.0",
+  "description": "JSON Web Token Plugin for Hapi.js",
+  "keywords": [
+    "JWT",
+    "Hapi"
+  ],
+  "license": "SEE LICENSE IN LICENSE.md",
+  "author": {
+    "name": "PicoSpark - Elecctro Solutions, Lda.",
+    "email": "geral@elecctro.com"
+  },
+  "contributors": [
+    {
+      "name": "Diogo Simões",
+      "email": "diogo.simoes@elecctro.com"
+    },
+    {
+      "name": "Jorge Vila",
+      "email": "jorge.vila@elecctro.com"
+    }
+  ],
+  "main": "src/index.js",
+  "scripts": {
+    "test": "nyc --reporter=text --reporter=html mocha",
+    "lint": "eslint src test"
+  },
+  "dependencies": {
+    "boom": "^7.1.1",
+    "cookie": "^0.3.1",
+    "hoek": "^5.0.3",
+    "joi": "^13.1.2",
+    "jsonwebtoken": "^8.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
+    "chai-subset": "^1.6.0",
+    "eslint": "^4.17.0",
+    "eslint-config-hapi": "^11.1.0",
+    "eslint-plugin-hapi": "^4.1.0",
+    "eslint-plugin-mocha": "^4.11.0",
+    "hapi": "^17.2.0",
+    "mocha": "^5.0.0",
+    "nyc": "^11.4.1",
+    "request": "^2.83.0"
+  }
+}
