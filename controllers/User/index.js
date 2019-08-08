@@ -23,7 +23,7 @@ internals.listUsers = async (request, h) => {
         const users = await request.server.plugins.database.User
             .query()
             .select('id', 'email', 'credits')
-            .page((request.query.page - 1) * internals.rowsByPage, request.query.page * internals.rowsByPage);
+            .page((request.query.page - 1) ,  internals.rowsByPage);
         // Issue a new JSON Web Token
 
         // h

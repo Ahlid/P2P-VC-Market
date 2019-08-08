@@ -89,7 +89,7 @@ internals.listJobs = async (request, h) => {
         return await request.server.plugins.database.Job
             .query()
             .where({user_id: request.auth.credentials.userId})
-            .page((request.query.page - 1) * internals.rowsByPage, request.query.page * internals.rowsByPage);
+            .page((request.query.page - 1) ,  internals.rowsByPage);
 
     } catch (err) {
         request.server.log('error', err);
