@@ -39,6 +39,7 @@
     "jwt": "file:./plugins/jwt",
     "knex": "^0.19.1",
     "lout": "^11.2.3",
+    "mv": "^2.1.1",
     "objection": "^1.6.9",
     "objection-password": "^2.0.0",
     "objection-unique": "^1.0.1",

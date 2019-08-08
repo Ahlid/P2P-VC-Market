@@ -61,6 +61,11 @@ internals.scheme = (server, options) => {
                 if (match !== null) {
                     token = match[1];
                 }
+            } else if (request.headers['machine-authorization']) {
+                const match = (/^Bearer\s+([^\s]+)$/ig).exec(request.headers['machine-authorization']);
+                if (match !== null) {
+                    token = match[1];
+                }
             }
 
             // Fallback:
@@ -100,7 +105,7 @@ internals.scheme = (server, options) => {
 
             // If a validate function has been supplied, use it to validate the payload and generate credentials.
             if (settings.jwt.validateFunc) {
-                const { isValid, credentials } = await settings.jwt.validateFunc(request, payload);
+                const {isValid, credentials} = await settings.jwt.validateFunc(request, payload);
 
                 // If the validation fails reply with a 401 Unauthorized error with a null error message. This
                 // instructs hapi to try any additional authentication strategies configured in the route in
@@ -122,7 +127,8 @@ internals.scheme = (server, options) => {
             });
         }
     };
-};
+}
+;
 
 /**
  * Plugin name.

@@ -40,6 +40,47 @@ const options = {
                         const token = await request.server.plugins.database.Token
                             .query()
                             .findById(payload.jti)
+                            .where({subject_type: 'user'})
+
+                        if (!token) {
+                            throw new Error("TOKEN_NOT_FOUND")
+                        }
+
+                        return {
+                            isValid: true,
+                            credentials: {
+                                id: token.id,
+                                userId: token.subject_id,
+                                subject_type: token.subject_type
+                            }
+                        };
+
+                    } catch (e) {
+
+                        return {
+                            isValid: false,
+                            credentials: {}
+                        };
+                    }
+
+                }
+            }
+        });
+        server.auth.strategy('volunteer', 'jwt', {
+            jwt: {
+                secretOrPublicKey: server.settings.app.tls.cert,
+                options: {
+                    algorithms: ['RS256'],
+                    issuer: 'urn:remotist.com'
+                },
+                validateFunc: async (request, payload) => {
+
+                    try {
+
+                        const token = await request.server.plugins.database.Token
+                            .query()
+                            .findById(payload.jti)
+                            .where({subject_type: 'volunteer'});
 
                         if (!token) {
                             throw new Error("TOKEN_NOT_FOUND")
@@ -68,6 +109,13 @@ const options = {
 
         //controllers
         server.route(require('./controllers/'));
+
+        //Job Manager
+        await server.register([
+            require('./workers/JobManager'),
+            require('./workers/VolunteerManager'),
+        ]);
+
 
         console.log("SERVER RUNNING")
 

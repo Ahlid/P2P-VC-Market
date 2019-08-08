@@ -1,0 +1,34 @@
+regist_user ------------- x
+login ----------- x
+getUsers ----------- x
+addMachine ---------- x
+getMachine ----------- x
+
+
+
+submitJob ------------------ x
+abortJob ------------------ x
+getMachinesForJob       K
+checkClientOwnershipOfJob       K
+
+calcVolunteerMeanUptime
+
+getCandidates       K
+getVolunteersForJob     K
+linkJobVolunteer        K
+chooseVolunteer         K
+
+
+checkVolunteer ----------- VE SE JÁ TEM SESSION
+startVolunteer ----------- x
+
+getQuiz
+validateJob
+checkJobResult
+
+updateVolunteersComputingData
+
+getJobs ------------ x
+loadJob
+
+healthCheck
