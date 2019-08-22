@@ -1,38 +1,24 @@
-const JobManager = function (server, interval = 5000) {
-    this.interval = interval;
-    this.jobs = {};
-    this.started = false;
-    this.server = server;
+const amqp = require('amqplib');
+
+const JobManager = function (queue = 'jobs', host = 'amqp://localhost') {
+    this.init(queue, host)
+    this.queue = queue;
+};
+
+JobManager.prototype.init = async function (queue, host) {
+    const connection = await amqp.connect(host);
+
+    const channel = await connection.createChannel();
+
+    await channel.assertQueue(queue, {
+        durable: false
+    });
+
+    this.channel = channel;
 };
 
 JobManager.prototype.addJob = function (job) {
-    this.jobs[job.id] = job;
-};
-
-JobManager.prototype.startJob = function (jobId, volunteerId) {
-    this.jobs[jobId] = {volunteerId: volunteerId, ...this.jobs[jobId]};
-};
-
-JobManager.prototype.completeJob = function (jobId, volunteerId) {
-
-};
-
-JobManager.prototype.abortJob = function (jobId, volunteerId) {
-
-};
-
-JobManager.prototype.run = function () {
-    console.log("run")
-};
-
-JobManager.prototype.start = function () {
-
-    if (!this.started) {
-        setInterval(this.run, this.interval)
-    }
-
-    this.started = true;
-
+    this.channel.sendToQueue(this.queue, Buffer.from(JSON.stringify(job)));
 };
 
 exports.plugin = {
@@ -40,8 +26,7 @@ exports.plugin = {
     version: '1.0.0',
     register: async function (server, options) {
 
-        const jobM = new JobManager(server);
-        jobM.start();
+        const jobM = new JobManager();
 
         server.expose("jobManager", jobM);
     }

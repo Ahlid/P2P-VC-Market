@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Ahlid/P2P-VC-Market#readme",
   "dependencies": {
+    "amqplib": "^0.5.5",
     "boom": "latest",
     "cookie": "latest",
     "database": "file:./plugins/database",

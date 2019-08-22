@@ -19,7 +19,7 @@ internals.rowsByPage = 25;
 internals.addJob = async (request, h) => {
 
     try {
-        return await request.server.plugins.database.Job
+        const job = await request.server.plugins.database.Job
             .query()
             .insert({
                 name: request.payload.name,
@@ -33,6 +33,11 @@ internals.addJob = async (request, h) => {
                 status: 'UNBOUND',
                 mean_up_time: 0,
             });
+
+        await request.server.plugins.Job.jobManager.addJob(job);
+
+        return job;
+
     } catch (err) {
         request.server.log('error', err);
         return Boom.boomify(err);
@@ -89,7 +94,7 @@ internals.listJobs = async (request, h) => {
         return await request.server.plugins.database.Job
             .query()
             .where({user_id: request.auth.credentials.userId})
-            .page((request.query.page - 1) ,  internals.rowsByPage);
+            .page((request.query.page - 1), internals.rowsByPage);
 
     } catch (err) {
         request.server.log('error', err);
