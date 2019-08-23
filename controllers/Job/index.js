@@ -121,6 +121,22 @@ internals.uploadJobData = async (request, h) => {
     }
 };
 
+internals.uploadJobOutput = async (request, h) => {
+
+    try {
+        const data = request.payload;
+        const dest = process.cwd() + `/files/output/${request.params.id}_out.RData`;
+
+        await move(data.path, dest);
+
+        return 1;
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
 internals.uploadCodePath = async (request, h) => {
 
     try {
@@ -133,6 +149,45 @@ internals.uploadCodePath = async (request, h) => {
             .query()
             .where({user_id: request.auth.credentials.userId})
             .patchAndFetchById(request.params.id, {folder_path: dest});
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+internals.getJobData = async (request, h) => {
+
+    try {
+
+        const dest = process.cwd() + `/files/data/${request.params.id}_input.RData`;
+        return h.file(dest);
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+internals.getJobCode = async (request, h) => {
+
+    try {
+
+        const dest = process.cwd() + `/files/code/${request.params.id}.zip`;
+        return h.file(dest);
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+internals.getJobOutput = async (request, h) => {
+
+    try {
+
+        const dest = process.cwd() + `/files/output/${request.params.id}_out.RData`;
+        return h.file(dest);
 
     } catch (err) {
         request.server.log('error', err);
@@ -242,6 +297,50 @@ const routes = [
                 timeout: false,
 
             },
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    },
+    {
+        method: 'POST',
+        path: '/job/{id}/output',
+        handler: internals.uploadJobOutput,
+        config: {
+            payload: {
+                parse: false,
+                output: 'file',
+                allow: "application/octet-stream",
+                maxBytes: 100000000000,
+                timeout: false,
+
+            },
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    },
+    {
+        method: 'GET',
+        path: '/job/{id}/data',
+        handler: internals.getJobData,
+        config: {
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    },
+    {
+        method: 'GET',
+        path: '/job/{id}/code',
+        handler: internals.getJobCode,
+        config: {
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    },
+    {
+        method: 'GET',
+        path: '/job/{id}/output',
+        handler: internals.getJobOutput,
+        config: {
             description: 'Registers a new client.',
             tags: ['Admin', 'API']
         }

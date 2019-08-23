@@ -24,7 +24,6 @@ const options = {
             }
         });
 
-
         //Auth
         server.auth.strategy('user', 'jwt', {
             jwt: {

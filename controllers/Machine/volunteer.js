@@ -47,27 +47,27 @@ internals.startVolunteer = async (request, h) => {
             return Boom.notFound();
         }
 
+        /*
+                //check if volunteer is already running
+                const runningVolunteer = await request.server.plugins.database.Volunteer
+                    .query()
+                    .where({
+                        machine_id: machine.id,
+                        timeouted: false,
+                        stoped: false
+                    });
 
-        //check if volunteer is already running
-        const runningVolunteer = await request.server.plugins.database.Volunteer
-            .query()
-            .where({
-                machine_id: machine.id,
-                timeouted: false,
-                stoped: false
-            });
-
-        if (runningVolunteer) {
-            return Boom.conflict("VOLUNTEER_ALREADY_RUNNING");
-        }
-
+                if (runningVolunteer) {
+                    return Boom.conflict("VOLUNTEER_ALREADY_RUNNING");
+                }
+        */
         // Issue a new JSON Web Token
         const token = await internals.issueToken(request.server, machine.id);
 
         const volunteer = await request.server.plugins.database.Volunteer
             .query()
             .insert({
-                ip: request.payload.ip,
+                ip:  request.info.remoteAddress,
                 port: request.payload.port,
                 machine_id: machine.id,
                 session_id: token.id,
@@ -99,7 +99,6 @@ const routes = [
                     machineId: Joi.string().uuid().required(),
                 }),
                 payload: Joi.object({
-                    ip: Joi.string().required(),
                     port: Joi.number().min(1).required(),
                 }),
                 options: {abortEarly: false}
