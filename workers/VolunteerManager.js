@@ -10,20 +10,29 @@ const VolunteerManager = function (server) {
         console.log('connected');
         socket.emit('update-volunteers', that.volunteers);
 
-        // Do all the socket stuff here.
-
     });
-
 
     this.volunteers = {};
     this.server = server;
 };
 
 VolunteerManager.prototype.addVolunteer = function (volunteer) {
-    this.volunteers[volunteer.id] = {lastHearthBeat: (new Date()).getTime(), ...volunteer};
+    this.volunteers[volunteer.session_id] = {lastHearthBeat: (new Date()).getTime(), ...volunteer};
 
     console.log(this.volunteers)
 
+    this.io.emit('update-volunteers', this.volunteers);
+
+};
+
+VolunteerManager.prototype.healthzVolunteer = function (id) {
+    this.volunteers[id] = {...this.volunteers[id], lastHearthBeat: (new Date()).getTime()};
+    this.io.emit('update-volunteers', this.volunteers);
+
+};
+
+VolunteerManager.prototype.setVolunteerState = function (id, state) {
+    this.volunteers[id] = {...this.volunteers[id], lastHearthBeat: (new Date()).getTime(), state: state};
     this.io.emit('update-volunteers', this.volunteers);
 
 };

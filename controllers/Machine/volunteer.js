@@ -67,7 +67,7 @@ internals.startVolunteer = async (request, h) => {
         const volunteer = await request.server.plugins.database.Volunteer
             .query()
             .insert({
-                ip:  request.info.remoteAddress,
+                ip: request.info.remoteAddress,
                 port: request.payload.port,
                 machine_id: machine.id,
                 session_id: token.id,
@@ -87,6 +87,35 @@ internals.startVolunteer = async (request, h) => {
 };
 
 
+internals.healthzVolunteer = async (request, h) => {
+
+    try {
+
+        request.server.plugins.Volunteer.volunteerManager.healthzVolunteer(request.auth.credentials.id);
+
+        return 1;
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+
+internals.setVolunteerState = async (request, h) => {
+
+    try {
+
+        request.server.plugins.Volunteer.volunteerManager.setVolunteerState(request.auth.credentials.id, request.payload.state);
+
+        return 1;
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
 const routes = [
     {
         method: 'POST',
@@ -104,6 +133,28 @@ const routes = [
                 options: {abortEarly: false}
             },
             description: 'Starts machine as volunteer. Returns volunteer session token',
+            tags: ['User API'],
+
+        }
+    },
+    {
+        method: 'GET',
+        path: '/volunteer/healthz',
+        handler: internals.healthzVolunteer,
+        config: {
+            auth: 'volunteer',
+            description: 'Healthz for volunteer',
+            tags: ['User API'],
+
+        }
+    },
+    {
+        method: 'POST',
+        path: '/volunteer/setState',
+        handler: internals.setVolunteerState,
+        config: {
+            auth: 'volunteer',
+            description: 'Healthz for volunteer',
             tags: ['User API'],
 
         }
