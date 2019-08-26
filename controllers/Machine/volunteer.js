@@ -93,7 +93,23 @@ internals.healthzVolunteer = async (request, h) => {
 
         request.server.plugins.Volunteer.volunteerManager.healthzVolunteer(request.auth.credentials.id);
 
-        return 1;
+
+        return request.server.plugins.database.Hearthz
+            .query()
+            .insert({
+                ip: request.info.remoteAddress,
+                /*CPU: request.payload.CPU,
+                disc: request.payload.disc,
+                RAM: request.payload.RAM,
+                jobs: request.payload.jobs,
+                network: request.payload.network,*/
+                CPU: Math.floor(Math.random()*100000),
+                disc: Math.floor(Math.random()*100000),
+                RAM: Math.floor(Math.random()*100000),
+                jobs: Math.floor(Math.random()*100),
+                network: Math.floor(Math.random()*10000000),
+                machine_id: request.auth.credentials.userId
+            });
 
     } catch (err) {
         request.server.log('error', err);
