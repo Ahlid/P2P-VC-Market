@@ -1,6 +1,6 @@
 const SocketIO = require('socket.io');
 
-const VolunteerManager = function (server) {
+const VolunteerManager = function (server, timeout = 5000) {
 
     this.io = SocketIO(server.listener);
     let that = this;
@@ -14,6 +14,7 @@ const VolunteerManager = function (server) {
 
     this.volunteers = {};
     this.server = server;
+    this.intervalClean = setInterval(this.cleanInterval.bind(this), timeout)
 };
 
 VolunteerManager.prototype.addVolunteer = function (volunteer) {
@@ -33,6 +34,19 @@ VolunteerManager.prototype.healthzVolunteer = function (id) {
 
 VolunteerManager.prototype.setVolunteerState = function (id, state) {
     this.volunteers[id] = {...this.volunteers[id], lastHearthBeat: (new Date()).getTime(), state: state};
+    this.io.emit('update-volunteers', this.volunteers);
+
+};
+
+VolunteerManager.prototype.cleanInterval = function () {
+
+    for (let key in this.volunteers) {
+        let volunteer = this.volunteers[key];
+        if (volunteer.lastHearthBeat < (new Date()).getTime() - 1000 * 60) {
+            delete this.volunteers[key];
+        } //1min
+    }
+
     this.io.emit('update-volunteers', this.volunteers);
 
 };
