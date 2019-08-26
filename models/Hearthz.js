@@ -21,6 +21,7 @@ class Hearthz extends Model {
                 jobs: {type: "integer"},
                 network: {type: "number"},
                 machine_id: {type: "string", format: "uuid"},
+                session_id: {type: "string", format: "uuid"},
                 timestamp: {type: "timestamp"},
             }
         }

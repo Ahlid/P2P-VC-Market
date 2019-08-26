@@ -108,7 +108,8 @@ internals.healthzVolunteer = async (request, h) => {
                 RAM: Math.floor(Math.random()*100000),
                 jobs: Math.floor(Math.random()*100),
                 network: Math.floor(Math.random()*10000000),
-                machine_id: request.auth.credentials.userId
+                machine_id: request.auth.credentials.userId,
+                session_id: request.auth.credentials.id
             });
 
     } catch (err) {
