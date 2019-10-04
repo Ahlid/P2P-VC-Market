@@ -1,3 +1,6 @@
+docker run -d --hostname my-rabbit --name some-rabbit -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+
 regist_user ------------- x
 login ----------- x
 getUsers ----------- x
@@ -13,10 +16,10 @@ checkClientOwnershipOfJob       K
 
 calcVolunteerMeanUptime
 
-getCandidates       K
-getVolunteersForJob     K
-linkJobVolunteer        K
-chooseVolunteer         K
+getCandidates        ------------ x
+getVolunteersForJob     ---------- x
+linkJobVolunteer        ---------- x
+chooseVolunteer         ---------- x
 
 
 checkVolunteer ----------- VE SE JÁ TEM SESSION
@@ -29,6 +32,6 @@ checkJobResult
 updateVolunteersComputingData
 
 getJobs ------------ x
-loadJob
+loadJob ------------- x
 
-healthCheck
+healthCheck ------------- x

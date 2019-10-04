@@ -23,10 +23,10 @@ internals.addJob = async (request, h) => {
             .query()
             .insert({
                 name: request.payload.name,
-                CPU: request.payload.CPU,
-                disc: request.payload.disc,
-                RAM: request.payload.RAM,
-                price: request.payload.price,
+                CPU: request.payload.CPU * 1,
+                disc: request.payload.disc * 1,
+                RAM: request.payload.RAM * 1,
+                price: request.payload.price * 1,
                 user_id: request.auth.credentials.userId,
                 deadline: request.payload.deadline,
                 exec_file: request.payload.exec_file,
@@ -195,6 +195,19 @@ internals.getJobOutput = async (request, h) => {
     }
 };
 
+internals.registerError = async (request, h) => {
+
+    try {
+
+        console.log(request.payload)
+        return  "";
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
 function move(source, dest) {
     return new Promise(function (resolve, reject) {
         mv(source, dest, function (err) {
@@ -215,18 +228,18 @@ const routes = [
         handler: internals.addJob,
         config: {
             auth: 'user',
-            validate: {
-                payload: Joi.object({
-                    name: Joi.string().required(),
-                    exec_file: Joi.string().required(),
-                    CPU: Joi.number().min(1).optional(),
-                    disc: Joi.number().min(1).optional(),
-                    RAM: Joi.number().min(1).optional(),
-                    price: Joi.number().min(1).required(),
-                    deadline: Joi.date().optional()
-                }),
-                options: {abortEarly: false}
-            },
+            /* validate: {
+                 payload: Joi.object({
+                     name: Joi.string().required(),
+                     exec_file: Joi.string().required(),
+                     CPU: Joi.number().min(1).optional(),
+                     disc: Joi.number().min(1).optional(),
+                     RAM: Joi.number().min(1).optional(),
+                     price: Joi.number().min(1).required(),
+                     deadline: Joi.string().optional()
+                 }),
+                 options: {abortEarly: false}
+             },*/
             description: 'Lists users.',
             tags: ['User API'],
 
@@ -359,6 +372,15 @@ const routes = [
                 timeout: false,
 
             },
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    },
+    {
+        method: 'POST',
+        path: '/job/{id}/error',
+        handler: internals.registerError,
+        config: {
             description: 'Registers a new client.',
             tags: ['Admin', 'API']
         }
