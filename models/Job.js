@@ -28,6 +28,7 @@ class Job extends Model {
                 folder_path: {type: "string"},
                 exec_file: {type: "string"},
                 status: {type: "string"},
+                partialResultsVars: {type: "array"},
                 mean_up_time: {type: "number"},
                 user_id: {type: "string", format: "uuid"}
             }

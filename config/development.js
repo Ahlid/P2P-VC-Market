@@ -26,7 +26,7 @@ const getManifest = () => {
                 log: ["error"],
                 request: ["error"]
             },
-            port: 8081,
+            port: 8082,
             routes: {
                 cors: {
                     origin: ["*"],
@@ -142,10 +142,10 @@ const getManifest = () => {
                             client: "pg",
                             connection: {
                                 host: process.env.BD_HOST || "localhost",
-                                port: process.env.BD_PORT || 5432,
+                                port: process.env.BD_PORT || 5433,
                                 user: process.env.BD_USER || "postgres",
-                                password: process.env.BD_PASSWORD || "1234",
-                                database: process.env.BD_DATABASE || "remotist",
+                                password: process.env.BD_PASSWORD || "password",
+                                database: process.env.BD_DATABASE || "postgres",
                                 charset: "utf8",
                                 timezone: "UTC"
                             }

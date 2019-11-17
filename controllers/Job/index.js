@@ -9,6 +9,7 @@ const mv = require('mv');
 const internals = {};
 
 internals.rowsByPage = 25;
+internals.partialResults = {};
 
 /**
  * Registers a new user and issues a new JSON Web Token.
@@ -17,24 +18,23 @@ internals.rowsByPage = 25;
  * @param h
  */
 internals.addJob = async (request, h) => {
-
+    console.log(request.payload)
     try {
         const job = await request.server.plugins.database.Job
             .query()
             .insert({
-                name: request.payload.name,
-                CPU: request.payload.CPU * 1,
-                disc: request.payload.disc * 1,
-                RAM: request.payload.RAM * 1,
-                price: request.payload.price * 1,
+                name: request.payload.name[0],
+                CPU: request.payload.CPU[0] * 1,
+                disc: request.payload.disc[0] * 1,
+                RAM: request.payload.RAM[0] * 1,
+                price: request.payload.price[0] * 1,
                 user_id: request.auth.credentials.userId,
-                deadline: request.payload.deadline,
-                exec_file: request.payload.exec_file,
+                deadline: request.payload.deadline[0],
+                exec_file: request.payload.exec_file[0],
+                partialResultsVars: request.payload.partialResultsVars,
                 status: 'UNBOUND',
                 mean_up_time: 0,
             });
-
-        await request.server.plugins.Job.jobManager.addJob(job);
 
         return job;
 
@@ -145,10 +145,14 @@ internals.uploadCodePath = async (request, h) => {
 
         await move(data.path, dest);
 
-        return await request.server.plugins.database.Job
+        const job = await request.server.plugins.database.Job
             .query()
             .where({user_id: request.auth.credentials.userId})
             .patchAndFetchById(request.params.id, {folder_path: dest});
+
+        await request.server.plugins.Job.jobManager.addJob(job);
+
+        return job;
 
     } catch (err) {
         request.server.log('error', err);
@@ -200,7 +204,76 @@ internals.registerError = async (request, h) => {
     try {
 
         console.log(request.payload)
-        return  "";
+        return "";
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+internals.registerPartialResult = async (request, h) => {
+
+    try {
+        console.log(request.payload);
+        internals.partialResults[request.params.variable] = request.payload;
+        await request.server.plugins.database.PartialResults
+            .query()
+            .insert({
+                name: request.params.variable,
+                value: request.payload,
+                job_id: request.params.id
+            });
+        return "";
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+internals.getPartialResult = async (request, h) => {
+
+    try {
+
+        const partialResult = await request.server.plugins.database.PartialResults
+            .query()
+            .orderBy('created_at', 'desc')
+            .findOne({
+                job_id: request.params.id,
+                name: request.params.variable
+            });
+
+        if (!partialResult)
+            return Boom.notFound();
+
+        return partialResult.value;
+
+    } catch (err) {
+        request.server.log('error', err);
+        return Boom.boomify(err);
+    }
+};
+
+internals.getPartialResultHistory = async (request, h) => {
+
+    try {
+
+        const partialResult = await request.server.plugins.database.PartialResults
+            .query()
+            .orderBy('created_at', 'desc')
+            .where(
+                'job_id', request.params.id
+            ).andWhere(
+                'name', request.params.variable
+            );
+
+        if (!partialResult)
+            return Boom.notFound();
+
+        const result = partialResult.map(p => p.value);
+       // return result;
+        return JSON.stringify(result);
 
     } catch (err) {
         request.server.log('error', err);
@@ -380,6 +453,37 @@ const routes = [
         method: 'POST',
         path: '/job/{id}/error',
         handler: internals.registerError,
+        config: {
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    }, {
+        method: 'POST',
+        path: '/job/{id}/partialResults/{variable}',
+        handler: internals.registerPartialResult,
+        config: {
+            payload: {
+                parse: false,
+                output: 'data',
+                allow: null,
+                maxBytes: 100000000000,
+                timeout: false,
+            },
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    }, {
+        method: 'GET',
+        path: '/job/{id}/partialResults/{variable}',
+        handler: internals.getPartialResult,
+        config: {
+            description: 'Registers a new client.',
+            tags: ['Admin', 'API']
+        }
+    }, {
+        method: 'GET',
+        path: '/job/{id}/partialResults/{variable}/history',
+        handler: internals.getPartialResultHistory,
         config: {
             description: 'Registers a new client.',
             tags: ['Admin', 'API']
