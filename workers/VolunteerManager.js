@@ -9,6 +9,7 @@ const VolunteerManager = function (server, timeout = 5000) {
 
         console.log('connected');
         socket.emit('update-volunteers', that.volunteers);
+        socket.emit('hello', {"babe": 1});
 
     });
 
@@ -50,7 +51,6 @@ VolunteerManager.prototype.cleanInterval = function () {
     this.io.emit('update-volunteers', this.volunteers);
 
 };
-
 
 exports.plugin = {
     name: 'Volunteer',

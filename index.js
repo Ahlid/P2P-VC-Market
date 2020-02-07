@@ -113,6 +113,7 @@ const options = {
         await server.register([
             require('./workers/JobManager'),
             require('./workers/VolunteerManager'),
+            require('./workers/PeerManager'),
         ]);
 
 
