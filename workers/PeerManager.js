@@ -16,7 +16,8 @@ const MARKET = {
     SET_LEADER: 'SET_LEADER',
     PEER_CONNECTION: 'PEER_CONNECTION',
     PONG: 'P2P_PONG',
-    JOB_ASSIGNED: 'JOB_ASSIGNED'
+    JOB_ASSIGNED: 'JOB_ASSIGNED',
+    SEND_PEERS_STATE: 'SEND_PEERS_STATE'
 };
 
 const PeerManager = function (server, timeout = 5000) {
@@ -60,7 +61,7 @@ PeerManager.prototype.bindSocket = function (socket) {
             payload: {email, password}
         });
 
-        if (authResponse.statusCode == 200) {
+        if (true || authResponse.statusCode == 200) {
 
             socket.emit(PEER.SEND_SESSION_TOKEN, authResponse.result);
             this.bindSocketEvents(socket, data);
@@ -88,6 +89,12 @@ PeerManager.prototype.bindSocketEvents = function (socket, data) {
     socket.on(MARKET.SET_LEADER, (data) => {
         this.leader = host + port;
         this.leaderLastHz = Date.now();
+    });
+
+    socket.on(MARKET.SEND_PEERS_STATE, (data) => {
+        console.log("===========================================================");
+        console.log(data);
+        console.log("===========================================================");
     });
 
     if (this.sockets[data.host + data.port] && this.sockets[data.host + data.port].ping + 10000 > Date.now()) {
@@ -118,7 +125,7 @@ PeerManager.prototype.sendHzToLeader = function () {
 };
 
 PeerManager.prototype.markPeerAsLeader = function (socket, info) {
-    socket.emit(PEER.SET_LEADER, {superNodeSize: 5});
+    socket.emit(PEER.SET_LEADER, {superNodeSize: 2});
 };
 
 PeerManager.prototype.markPeerAsNode = function (socket, info) {
