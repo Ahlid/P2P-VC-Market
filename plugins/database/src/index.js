@@ -74,6 +74,7 @@ exports.register = async (server, options) => {
         throw err;
     }
 
+    console.log(settings)
     //objection
     Model.knex(internals.knex);
     internals.objection = Model;

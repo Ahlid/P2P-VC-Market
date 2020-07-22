@@ -141,7 +141,7 @@ const getManifest = () => {
                         knex: {
                             client: "pg",
                             connection: {
-                                host: process.env.BD_HOST || "localhost",
+                                host: process.env.BD_HOST || "192.168.1.169",
                                 port: process.env.BD_PORT || 5433,
                                 user: process.env.BD_USER || "postgres",
                                 password: process.env.BD_PASSWORD || "password",
