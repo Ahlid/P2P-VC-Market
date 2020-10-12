@@ -15,7 +15,7 @@ abortJob ------------------ x
 getMachinesForJob       K
 checkClientOwnershipOfJob       K
 
-calcVolunteerMeanUptime
+calcVolunteerMeanUptime ------------------ x
 
 getCandidates        ------------ x
 getVolunteersForJob     ---------- x
@@ -27,10 +27,10 @@ checkVolunteer ----------- VE SE JÁ TEM SESSION
 startVolunteer ----------- x
 
 getQuiz
-validateJob
-checkJobResult
+validateJob -------------------------- x
+checkJobResult --------------------- x
 
-updateVolunteersComputingData
+updateVolunteersComputingData  ------------ x
 
 getJobs ------------ x
 loadJob ------------- x
@@ -79,3 +79,42 @@ library(rJava)
 
 obj <- .jnew("Main")
 s <- .jcall(obj, returnSig = "V", "main", .jarray(c("tese@ist.com","tese@ist.com","63f53e57-8c58-4d36-bc50-b41d145de0cc")) )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------
+
+# Peers
+
+- don't remove and insert peer info, try to update
+- select peer on worker
+
+# Checkpoint
+
+- split instructions for checkpoint
+- create checkpoint
+- save checkpoint
+- load from checkpoint
+- distribute checkpoint to market
+- distribute checkpoint to network
+
+
