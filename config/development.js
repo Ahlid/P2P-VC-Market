@@ -141,10 +141,10 @@ const getManifest = () => {
                         knex: {
                             client: "pg",
                             connection: {
-                                host: process.env.BD_HOST || "192.168.1.169",
-                                port: process.env.BD_PORT || 5433,
+                                host: process.env.BD_HOST || "164.68.125.146",
+                                port: process.env.BD_PORT || 5432,
                                 user: process.env.BD_USER || "postgres",
-                                password: process.env.BD_PASSWORD || "password",
+                                password: process.env.BD_PASSWORD || "ist191062",
                                 database: process.env.BD_DATABASE || "postgres",
                                 charset: "utf8",
                                 timezone: "UTC"
