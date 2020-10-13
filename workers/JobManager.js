@@ -1,6 +1,6 @@
 const amqp = require('amqplib');
 
-const JobManager = function (queue = 'jobs', host = 'amqp://164.68.125.146/') {
+const JobManager = function (queue = 'jobs', host = 'amqp://guest:ist191062@164.68.125.146:5672') {
     this.init(queue, host)
     this.queue = queue;
 };
