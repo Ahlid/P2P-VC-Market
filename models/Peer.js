@@ -7,7 +7,7 @@ class Peer extends Model {
     }
 
     static get idColumn() {
-        return ['peer_id', 'super_peer_id'];
+        return ['peer_id'];
     }
 
     static get jsonSchema() {

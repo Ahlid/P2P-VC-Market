@@ -56,6 +56,7 @@ PeerManager.prototype.bindSocket = function (socket) {
         const email = data.username;
         data.id = machineId;
         data.metric = Math.random();
+        socket.peer_id = data.id;
 
         if (!machineToken) {
 
@@ -97,7 +98,9 @@ PeerManager.prototype.bindSocket = function (socket) {
         this.leaderLastHz = Date.now();
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', async () => {
+        const {Peer} = this.server.plugins.database;
+        await Peer.query().delete().where({peer_id: socket.peer_id})
         //todo check if is leader, remove from list
     })
 };
@@ -122,7 +125,7 @@ PeerManager.prototype.bindSocketEvents = function (socket, data) {
         console.log("===========================================================");
         console.log(data);
         const {Peer} = this.server.plugins.database;
-        await Peer.query().delete().where({super_peer_id: data.id})
+        // await Peer.query().delete().where({super_peer_id: data.id})
         const bulkData = data.peersData.map(dataItem => {
             return {
                 disk: dataItem.disk * 1,
@@ -135,7 +138,12 @@ PeerManager.prototype.bindSocketEvents = function (socket, data) {
                 ram: dataItem.ram * 1
             }
         });
-        await Peer.query().insert(bulkData);
+
+        console.log(bulkData)
+        bulkData.map(async (item, index) => {
+            await Peer.query().upsertGraph(item, {insertMissing: true});
+        });
+
         console.log("===========================================================");
     });
 

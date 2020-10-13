@@ -105,8 +105,8 @@ s <- .jcall(obj, returnSig = "V", "main", .jarray(c("tese@ist.com","tese@ist.com
 
 # Peers
 
-- fix rabbitmq 403
-- don't remove and insert peer info, try to update
+- fix rabbitmq 403     xxx
+- don't remove and insert peer info, try to update xxx
 - select peer on worker
 
 # Checkpoint
