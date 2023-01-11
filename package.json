@@ -39,7 +39,7 @@
     "inert": "^5.1.3",
     "jsonwebtoken": "latest",
     "jwt": "file:./plugins/jwt",
-    "knex": "^0.21.2",
+    "knex": "^2.4.0",
     "lout": "^11.2.3",
     "mv": "^2.1.1",
     "objection": "^2.2.1",
